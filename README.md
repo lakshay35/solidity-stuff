@@ -2,8 +2,8 @@ This is a scratchpad repository for everything solidity. There might be some coo
 
 #### Tasks
 
-1. Hello World
-2. ERC 20
+1. ~~Hello World~~
+2. ~~ERC 20~~
 3. ERC 721
 4. ERC 1155
 5. Token Vault
