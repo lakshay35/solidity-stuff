@@ -6,6 +6,6 @@ This is a scratchpad repository for everything solidity. There might be some coo
 2. ~~ERC 20~~
 3. ~~ERC 721~~
 4. ~~ERC 1155~~
-5. Token Vault
+5. ~~Token Vault~~
 6. Token Lending
 7. Collaterized Stable coin

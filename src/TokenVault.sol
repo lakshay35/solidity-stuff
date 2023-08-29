@@ -1,0 +1,48 @@
+// SPDX-License-Identifier: SEE LICENSE IN LICENSE
+pragma solidity 0.8.17;
+
+import "openzeppelin/interfaces/IERC20.sol";
+
+contract TokenVault {
+    IERC20 public immutable token;
+
+    uint256 public totalSupply;
+    mapping(address => uint256) public balanceOf;
+
+    constructor(address _token) {
+        token = IERC20(_token);
+    }
+
+    function _mint(address _to, uint256 _shares) private {
+        totalSupply += _shares;
+        balanceOf[_to] += _shares;
+    }
+
+    function _burn(address _from, uint256 _shares) private {
+        totalSupply -= _shares;
+        balanceOf[_from] -= _shares;
+    }
+
+    function deposit(uint256 _amount) external {
+        require(_amount > 0, "Deposit needs to be > 0");
+
+        uint256 shares;
+
+        if (totalSupply == 0) {
+            shares = _amount;
+        } else {
+            shares = (_amount * totalSupply) / token.balanceOf(address(this));
+        }
+
+        _mint(msg.sender, shares);
+        token.transferFrom(msg.sender, address(this), _amount);
+    }
+
+    function withdraw(uint256 _shares) external {
+        require(balanceOf[msg.sender] >= _shares, "Withdrawal request too large");
+
+        uint256 amount = (_shares * token.balanceOf(address(this))) / totalSupply;
+        _burn(msg.sender, _shares);
+        token.transfer(msg.sender, amount);
+    }
+}
